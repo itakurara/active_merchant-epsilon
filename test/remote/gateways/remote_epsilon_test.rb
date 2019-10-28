@@ -262,6 +262,16 @@ class RemoteEpsilonGatewayTest < MiniTest::Test
     end
   end
 
+  def test_change_amount_successful
+    VCR.use_cassette(:change_amount_successful) do
+      detail = purchase_detail
+      response = gateway.recurring(10000, valid_credit_card, detail)
+      assert_equal true, response.success?
+      response = gateway.change_amount(new_item_price: 5000, order_number: detail[:order_number])
+      assert_equal true, response.success?
+    end
+  end
+
   def test_find_order_success
     VCR.use_cassette(:find_order_success) do
       detail = purchase_detail

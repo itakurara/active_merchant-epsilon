@@ -18,6 +18,7 @@ module ActiveMerchant #:nodoc:
         void:                    'cancel_payment.cgi',
         find_user:               'get_user_info.cgi',
         change_recurring_amount: 'change_amount_payment.cgi',
+        change_amount: 'change_amount_payment.cgi',
         find_order:              'getsales2.cgi',
       }.freeze
 
@@ -128,6 +129,16 @@ module ActiveMerchant #:nodoc:
           new_item_price: new_item_price,
         }
         commit(PATHS[:change_recurring_amount], params)
+      end
+
+      def change_amount(new_item_price:, order_number:)
+        params = {
+          contract_code:  self.contract_code,
+          mission_code:   1,
+          order_number: order_number,
+          new_item_price: new_item_price,
+        }
+        commit(PATHS[:change_amount], params)
       end
 
       #
